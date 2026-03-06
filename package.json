@@ -1,0 +1,21 @@
+{
+  "name": "virtual-study-room",
+  "version": "1.0.0",
+  "description": "Full-stack PWA virtual study room with shared chat, Pomodoro, and lo-fi radio",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "node server.js"
+  },
+  "keywords": [
+    "pwa",
+    "websocket",
+    "pomodoro",
+    "study-room"
+  ],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "ws": "^8.18.0"
+  }
+}

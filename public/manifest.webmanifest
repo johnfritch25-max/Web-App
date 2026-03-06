@@ -1,0 +1,23 @@
+{
+  "name": "Virtual Study Room",
+  "short_name": "StudyRoom",
+  "description": "A collaborative study room with live chat, shared Pomodoro, and lo-fi radio.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#0b1220",
+  "theme_color": "#111827",
+  "icons": [
+    {
+      "src": "/icons/icon-192.svg",
+      "sizes": "192x192",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "/icons/icon-512.svg",
+      "sizes": "512x512",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="512" height="512" viewBox="0 0 512 512" role="img" aria-label="Study Room">
+  <rect width="512" height="512" rx="72" fill="#0b1220" />
+  <rect x="70" y="90" width="372" height="330" rx="40" fill="#111827" stroke="#60a5fa" stroke-width="16" />
+  <circle cx="205" cy="255" r="40" fill="#60a5fa" />
+  <rect x="270" y="220" width="120" height="24" rx="12" fill="#e5e7eb" />
+  <rect x="270" y="272" width="80" height="24" rx="12" fill="#9ca3af" />
+</svg>

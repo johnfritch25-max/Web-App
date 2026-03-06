@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <meta name="theme-color" content="#111827" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+    <link rel="icon" href="/icons/icon-192.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/icons/icon-192.svg" />
+    <link rel="stylesheet" href="/styles.css" />
+    <title>Virtual Study Room</title>
+  </head>
+  <body>
+    <main class="app-shell">
+      <header class="app-header">
+        <h1>Virtual Study Room</h1>
+        <button id="installBtn" class="secondary-btn" hidden>Install App</button>
+      </header>
+
+      <section id="joinCard" class="card join-card">
+        <h2>Join a Room</h2>
+        <form id="joinForm">
+          <label>
+            Name
+            <input id="nameInput" maxlength="24" required placeholder="e.g. Aisha" />
+          </label>
+          <label>
+            Room
+            <input id="roomInput" maxlength="32" required value="main" />
+          </label>
+          <button type="submit">Enter Study Room</button>
+        </form>
+      </section>
+
+      <section id="roomLayout" class="room-grid hidden">
+        <article class="card chat-card">
+          <div class="card-title-row">
+            <h2>Live Chat</h2>
+            <p id="roomLabel"></p>
+          </div>
+          <div id="chatLog" class="chat-log"></div>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" maxlength="300" placeholder="Type a message..." required />
+            <button type="submit">Send</button>
+          </form>
+        </article>
+
+        <article class="card timer-card">
+          <h2>Shared Pomodoro</h2>
+          <p id="timerPhase" class="timer-phase">WORK</p>
+          <p id="timerDisplay" class="timer-display">25:00</p>
+          <div class="timer-controls">
+            <button id="startBtn">Start</button>
+            <button id="pauseBtn" class="secondary-btn">Pause</button>
+            <button id="resetBtn" class="danger-btn">Reset</button>
+          </div>
+          <form id="configForm" class="config-form">
+            <label>
+              Work (min)
+              <input id="workInput" type="number" min="1" max="120" value="25" required />
+            </label>
+            <label>
+              Break (min)
+              <input id="breakInput" type="number" min="1" max="120" value="5" required />
+            </label>
+            <button type="submit" class="secondary-btn">Apply</button>
+          </form>
+        </article>
+
+        <article class="card media-card">
+          <h2>Lo-fi Radio</h2>
+          <label>
+            Stream URL
+            <input
+              id="radioUrlInput"
+              value="https://play.streamafrica.net/lofiradio"
+              placeholder="Paste a stream URL"
+            />
+          </label>
+          <div class="timer-controls">
+            <button id="loadRadioBtn" class="secondary-btn">Load Stream</button>
+          </div>
+          <audio id="radioPlayer" controls preload="none"></audio>
+          <h3>Participants</h3>
+          <ul id="userList" class="user-list"></ul>
+        </article>
+      </section>
+    </main>
+
+    <script src="/app.js" defer></script>
+  </body>
+</html>
