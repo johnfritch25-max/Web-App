@@ -25,10 +25,15 @@ function sendJson(ws, payload) {
   }
 }
 
+function createClientId() {
+  return Math.random().toString(36).slice(2, 10);
+}
+
 function createRoom() {
   return {
     clients: new Set(),
     users: new Map(),
+    screenSharers: new Set(),
     chatHistory: [],
     timer: {
       phase: "work",
@@ -56,7 +61,7 @@ function emitRoomState(roomId) {
     return;
   }
 
-  const users = [...room.users.values()];
+  const users = [...room.users.values()].map((user) => user.name);
   const timer = {
     phase: room.timer.phase,
     isRunning: room.timer.isRunning,
@@ -79,6 +84,15 @@ function broadcast(roomId, payload) {
   for (const client of room.clients) {
     sendJson(client, payload);
   }
+}
+
+function findClientById(room, clientId) {
+  for (const client of room.clients) {
+    if (client.clientId === clientId) {
+      return client;
+    }
+  }
+  return null;
 }
 
 function cleanRoomIfEmpty(roomId) {
@@ -133,6 +147,7 @@ const server = http.createServer((req, res) => {
 const wss = new WebSocketServer({ server, path: "/ws" });
 
 wss.on("connection", (ws) => {
+  ws.clientId = createClientId();
   ws.roomId = null;
   ws.userName = null;
 
@@ -153,12 +168,40 @@ wss.on("connection", (ws) => {
       ws.userName = userName;
 
       const room = getRoom(roomId);
+      const existingPeers = [...room.users.values()].map((user) => ({
+        peerId: user.id,
+        userName: user.name,
+      }));
+
       room.clients.add(ws);
-      room.users.set(ws, userName);
+      room.users.set(ws, { id: ws.clientId, name: userName });
+
+      sendJson(ws, {
+        type: "joined_ack",
+        peerId: ws.clientId,
+        roomId,
+        userName,
+      });
+
+      sendJson(ws, {
+        type: "room_peers",
+        peers: existingPeers,
+      });
+
+      sendJson(ws, {
+        type: "screen_share_snapshot",
+        sharers: [...room.screenSharers],
+      });
 
       sendJson(ws, {
         type: "chat_history",
         messages: room.chatHistory,
+      });
+
+      broadcast(roomId, {
+        type: "peer_joined",
+        peerId: ws.clientId,
+        userName,
       });
 
       emitRoomState(roomId);
@@ -237,6 +280,48 @@ wss.on("connection", (ws) => {
       }
 
       emitRoomState(ws.roomId);
+      return;
+    }
+
+    if (
+      data.type === "webrtc_offer" ||
+      data.type === "webrtc_answer" ||
+      data.type === "webrtc_ice"
+    ) {
+      const toPeerId = String(data.to || "").trim();
+      if (!toPeerId) {
+        return;
+      }
+
+      const targetClient = findClientById(room, toPeerId);
+      if (!targetClient) {
+        return;
+      }
+
+      sendJson(targetClient, {
+        type: data.type,
+        from: ws.clientId,
+        userName: ws.userName,
+        sdp: data.sdp || null,
+        candidate: data.candidate || null,
+      });
+      return;
+    }
+
+    if (data.type === "screen_share_state") {
+      const isSharing = Boolean(data.isSharing);
+      if (isSharing) {
+        room.screenSharers.add(ws.clientId);
+      } else {
+        room.screenSharers.delete(ws.clientId);
+      }
+
+      broadcast(ws.roomId, {
+        type: "screen_share_update",
+        peerId: ws.clientId,
+        userName: ws.userName,
+        isSharing,
+      });
     }
   });
 
@@ -250,9 +335,23 @@ wss.on("connection", (ws) => {
       return;
     }
 
-    const departingName = room.users.get(ws) || "User";
+    const departing = room.users.get(ws) || { name: "User", id: ws.clientId };
+    const departingName = departing.name;
     room.clients.delete(ws);
     room.users.delete(ws);
+    room.screenSharers.delete(departing.id);
+
+    broadcast(ws.roomId, {
+      type: "peer_left",
+      peerId: departing.id,
+    });
+
+    broadcast(ws.roomId, {
+      type: "screen_share_update",
+      peerId: departing.id,
+      userName: departingName,
+      isSharing: false,
+    });
 
     broadcast(ws.roomId, formatSystemMessage(`${departingName} left the room.`));
     emitRoomState(ws.roomId);

@@ -46,6 +46,26 @@ body.join-screen .app-shell {
   margin-bottom: 1rem;
 }
 
+.header-actions {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.status-pill {
+  margin: 0;
+  border: 1px solid #334155;
+  border-radius: 999px;
+  padding: 0.3rem 0.7rem;
+  color: #fca5a5;
+  background: #1f2937;
+  font-size: 0.85rem;
+}
+
+.status-pill.is-online {
+  color: #86efac;
+}
+
 h1 {
   font-size: clamp(1.35rem, 1.1rem + 1.2vw, 2rem);
 }
@@ -86,7 +106,8 @@ body.join-screen .join-card {
 
 .chat-card,
 .timer-card,
-.media-card {
+.media-card,
+.video-card {
   min-height: 430px;
   display: flex;
   flex-direction: column;
@@ -219,6 +240,40 @@ button:hover {
   color: var(--muted);
 }
 
+.video-grid {
+  display: grid;
+  gap: 0.6rem;
+}
+
+.remote-videos {
+  display: grid;
+  gap: 0.6rem;
+  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+}
+
+.video-tile {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.video-tile video {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  border-radius: 10px;
+  border: 1px solid #334155;
+  object-fit: cover;
+  background: #020617;
+}
+
+.video-tile small {
+  color: var(--muted);
+}
+
+.sharing-status {
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
 @media (max-width: 980px) {
   .room-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
@@ -230,7 +285,8 @@ button:hover {
 
   .chat-card,
   .timer-card,
-  .media-card {
+  .media-card,
+  .video-card {
     min-height: 0;
   }
 }

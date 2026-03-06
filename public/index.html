@@ -16,7 +16,10 @@
     <main class="app-shell">
       <header class="app-header">
         <h1>Virtual Study Room</h1>
-        <button id="installBtn" class="secondary-btn" hidden>Install App</button>
+        <div class="header-actions">
+          <p id="connectionStatus" class="status-pill">Offline</p>
+          <button id="installBtn" class="secondary-btn" hidden>Install App</button>
+        </div>
       </header>
 
       <section id="joinCard" class="card join-card">
@@ -85,6 +88,28 @@
           <audio id="radioPlayer" controls preload="none"></audio>
           <h3>Participants</h3>
           <ul id="userList" class="user-list"></ul>
+        </article>
+
+        <article class="card video-card">
+          <div class="card-title-row">
+            <h2>Video Call</h2>
+            <p id="callStatus">Not connected</p>
+          </div>
+          <div class="video-grid">
+            <div class="video-tile">
+              <video id="localVideo" autoplay muted playsinline></video>
+              <small>You</small>
+            </div>
+            <div id="remoteVideos" class="remote-videos"></div>
+          </div>
+          <div class="timer-controls">
+            <button id="startCallBtn">Start Call</button>
+            <button id="toggleMicBtn" class="secondary-btn" disabled>Mute Mic</button>
+            <button id="toggleCamBtn" class="secondary-btn" disabled>Camera Off</button>
+            <button id="shareScreenBtn" class="secondary-btn" disabled>Share Screen</button>
+            <button id="leaveCallBtn" class="danger-btn" disabled>Leave Call</button>
+          </div>
+          <p id="sharingStatus" class="sharing-status">No one is sharing</p>
         </article>
       </section>
     </main>
