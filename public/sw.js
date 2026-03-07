@@ -1,4 +1,4 @@
-const CACHE_NAME = "study-room-v5";
+const CACHE_NAME = "study-room-v6";
 const ASSETS = [
   "/",
   "/index.html",
@@ -31,18 +31,14 @@ self.addEventListener("fetch", (event) => {
   }
 
   event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) {
-        return cached;
-      }
-
-      return fetch(event.request)
-        .then((response) => {
+    fetch(event.request)
+      .then((response) => {
+        if (response && response.status === 200 && response.type === "basic") {
           const clone = response.clone();
           caches.open(CACHE_NAME).then((cache) => cache.put(event.request, clone));
-          return response;
-        })
-        .catch(() => caches.match("/index.html"));
-    })
+        }
+        return response;
+      })
+      .catch(() => caches.match(event.request).then((cached) => cached || caches.match("/index.html")))
   );
 });
