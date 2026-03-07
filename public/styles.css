@@ -100,7 +100,7 @@ body.join-screen .join-card {
 .room-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr) minmax(260px, 300px);
+  grid-template-columns: minmax(0, 1.65fr) minmax(0, 0.95fr) minmax(250px, 290px);
   grid-template-areas:
     "video chat media";
   align-items: start;
@@ -118,7 +118,10 @@ body.join-screen .join-card {
 .chat-card {
   grid-area: chat;
   min-height: 520px;
-  height: 520px;
+  height: 560px;
+  display: grid;
+  grid-template-rows: auto minmax(0, 1fr) auto;
+  overflow: hidden;
 }
 
 .media-card {
@@ -130,7 +133,7 @@ body.join-screen .join-card {
 
 .video-card {
   grid-area: video;
-  min-height: 520px;
+  min-height: 560px;
 }
 
 .card-title-row {
@@ -205,9 +208,10 @@ button:hover {
 }
 
 .chat-log {
-  flex: 1;
+  height: 100%;
   min-height: 0;
   overflow-y: auto;
+  overscroll-behavior: contain;
   background: #0f172a;
   border: 1px solid #263246;
   border-radius: 10px;
@@ -253,6 +257,10 @@ button:hover {
   gap: 0.6rem;
   grid-template-columns: 1fr;
   align-items: start;
+}
+
+#localVideo {
+  min-height: clamp(300px, 46vh, 520px);
 }
 
 .remote-videos {
@@ -311,7 +319,7 @@ button:hover {
   }
 
   .chat-card {
-    height: 480px;
+    height: 500px;
   }
 
   .video-grid {
@@ -342,7 +350,7 @@ button:hover {
   }
 
   .chat-card {
-    height: 420px;
+    height: 460px;
   }
 }
 
@@ -386,7 +394,7 @@ button:hover {
   }
 
   .chat-card {
-    height: 380px;
+    height: 420px;
   }
 }
 
