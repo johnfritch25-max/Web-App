@@ -7,6 +7,9 @@
   --muted: #9ca3af;
   --primary: #60a5fa;
   --danger: #ef4444;
+  --panel-height: 620px;
+  --chat-height: 620px;
+  --video-min: clamp(440px, 62vh, 760px);
 }
 
 * {
@@ -20,12 +23,10 @@ body {
   background: radial-gradient(circle at top, #172554, var(--bg) 50%);
   min-height: 100vh;
   line-height: 1.4;
-  -webkit-text-size-adjust: 100%;
-  text-size-adjust: 100%;
 }
 
 .app-shell {
-  width: min(1200px, 100%);
+  width: min(1760px, 97vw);
   margin: 0 auto;
   padding: clamp(0.75rem, 2.5vw, 1.25rem);
   padding-left: max(clamp(0.75rem, 2.5vw, 1.25rem), env(safe-area-inset-left));
@@ -100,7 +101,7 @@ body.join-screen .join-card {
 .room-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: minmax(0, 1.65fr) minmax(0, 0.95fr) minmax(250px, 290px);
+  grid-template-columns: minmax(0, 2.1fr) minmax(0, 1.15fr) minmax(250px, 300px);
   grid-template-areas:
     "video chat media";
   align-items: start;
@@ -109,7 +110,7 @@ body.join-screen .join-card {
 .chat-card,
 .media-card,
 .video-card {
-  min-height: 520px;
+  min-height: var(--panel-height);
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
@@ -117,8 +118,8 @@ body.join-screen .join-card {
 
 .chat-card {
   grid-area: chat;
-  min-height: 520px;
-  height: 560px;
+  min-height: var(--chat-height);
+  height: var(--chat-height);
   display: grid;
   grid-template-rows: auto minmax(0, 1fr) auto;
   overflow: hidden;
@@ -133,7 +134,7 @@ body.join-screen .join-card {
 
 .video-card {
   grid-area: video;
-  min-height: 560px;
+  min-height: calc(var(--panel-height) + 40px);
 }
 
 .card-title-row {
@@ -212,7 +213,6 @@ button:hover {
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
-  -webkit-overflow-scrolling: touch;
   touch-action: pan-y;
   background: #0f172a;
   border: 1px solid #263246;
@@ -262,7 +262,7 @@ button:hover {
 }
 
 #localVideo {
-  min-height: clamp(380px, 54vh, 640px);
+  min-height: var(--video-min);
 }
 
 .remote-videos {
@@ -286,7 +286,7 @@ button:hover {
 .video-tile video {
   width: 100%;
   aspect-ratio: 16 / 9;
-  min-height: clamp(300px, 44vh, 520px);
+  min-height: clamp(340px, 50vh, 620px);
   border-radius: 10px;
   border: 1px solid #334155;
   object-fit: cover;
@@ -340,6 +340,22 @@ button:hover {
   .media-card {
     position: static;
     top: auto;
+  }
+}
+
+@media (min-width: 1500px) {
+  :root {
+    --panel-height: 680px;
+    --chat-height: 680px;
+    --video-min: clamp(520px, 68vh, 860px);
+  }
+
+  .room-grid {
+    grid-template-columns: minmax(0, 2.2fr) minmax(0, 1.1fr) minmax(270px, 320px);
+  }
+
+  .remote-videos {
+    max-height: 420px;
   }
 }
 
