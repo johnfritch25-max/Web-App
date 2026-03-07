@@ -38,58 +38,6 @@
       </section>
 
       <section id="roomLayout" class="room-grid hidden">
-        <article class="card chat-card">
-          <div class="card-title-row">
-            <h2>Live Chat</h2>
-            <p id="roomLabel"></p>
-          </div>
-          <div id="chatLog" class="chat-log"></div>
-          <form id="chatForm" class="chat-form">
-            <input id="chatInput" maxlength="300" placeholder="Type a message..." required />
-            <button type="submit">Send</button>
-          </form>
-        </article>
-
-        <article class="card timer-card">
-          <h2>Shared Pomodoro</h2>
-          <p id="timerPhase" class="timer-phase">WORK</p>
-          <p id="timerDisplay" class="timer-display">25:00</p>
-          <div class="timer-controls">
-            <button id="startBtn">Start</button>
-            <button id="pauseBtn" class="secondary-btn">Pause</button>
-            <button id="resetBtn" class="danger-btn">Reset</button>
-          </div>
-          <form id="configForm" class="config-form">
-            <label>
-              Work (min)
-              <input id="workInput" type="number" min="1" max="120" value="25" required />
-            </label>
-            <label>
-              Break (min)
-              <input id="breakInput" type="number" min="1" max="120" value="5" required />
-            </label>
-            <button type="submit" class="secondary-btn">Apply</button>
-          </form>
-        </article>
-
-        <article class="card media-card">
-          <h2>Lo-fi Radio</h2>
-          <label>
-            Stream URL
-            <input
-              id="radioUrlInput"
-              value="https://play.streamafrica.net/lofiradio"
-              placeholder="Paste a stream URL"
-            />
-          </label>
-          <div class="timer-controls">
-            <button id="loadRadioBtn" class="secondary-btn">Load Stream</button>
-          </div>
-          <audio id="radioPlayer" controls preload="none"></audio>
-          <h3>Participants</h3>
-          <ul id="userList" class="user-list"></ul>
-        </article>
-
         <article class="card video-card">
           <div class="card-title-row">
             <h2>Video Call</h2>
@@ -110,6 +58,36 @@
             <button id="leaveCallBtn" class="danger-btn" disabled>Leave Call</button>
           </div>
           <p id="sharingStatus" class="sharing-status">No one is sharing</p>
+        </article>
+
+        <article class="card chat-card">
+          <div class="card-title-row">
+            <h2>Live Chat</h2>
+            <p id="roomLabel"></p>
+          </div>
+          <div id="chatLog" class="chat-log"></div>
+          <form id="chatForm" class="chat-form">
+            <input id="chatInput" maxlength="300" placeholder="Type a message..." required />
+            <button type="submit">Send</button>
+          </form>
+        </article>
+
+        <article class="card media-card">
+          <h2>Lo-fi Radio</h2>
+          <label>
+            Stream URL
+            <input
+              id="radioUrlInput"
+              value="https://play.streamafrica.net/lofiradio"
+              placeholder="Paste a stream URL"
+            />
+          </label>
+          <div class="timer-controls">
+            <button id="loadRadioBtn" class="secondary-btn">Load Stream</button>
+          </div>
+          <audio id="radioPlayer" controls preload="none"></audio>
+          <h3>Participants</h3>
+          <ul id="userList" class="user-list"></ul>
         </article>
       </section>
     </main>

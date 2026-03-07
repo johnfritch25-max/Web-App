@@ -9,15 +9,6 @@ const chatLog = document.getElementById("chatLog");
 const chatForm = document.getElementById("chatForm");
 const chatInput = document.getElementById("chatInput");
 
-const timerPhase = document.getElementById("timerPhase");
-const timerDisplay = document.getElementById("timerDisplay");
-const startBtn = document.getElementById("startBtn");
-const pauseBtn = document.getElementById("pauseBtn");
-const resetBtn = document.getElementById("resetBtn");
-const configForm = document.getElementById("configForm");
-const workInput = document.getElementById("workInput");
-const breakInput = document.getElementById("breakInput");
-
 const radioPlayer = document.getElementById("radioPlayer");
 const radioUrlInput = document.getElementById("radioUrlInput");
 const loadRadioBtn = document.getElementById("loadRadioBtn");
@@ -62,12 +53,6 @@ const rtcConfig = {
 
 function pad(value) {
   return String(value).padStart(2, "0");
-}
-
-function formatSeconds(totalSeconds) {
-  const minutes = Math.floor(totalSeconds / 60);
-  const seconds = totalSeconds % 60;
-  return `${pad(minutes)}:${pad(seconds)}`;
 }
 
 function appendMessage({ author, message, sentAt }) {
@@ -545,11 +530,6 @@ function connectWebSocket(userName, roomId) {
     }
 
     if (data.type === "room_state") {
-      timerPhase.textContent = data.timer.phase.toUpperCase();
-      timerDisplay.textContent = formatSeconds(data.timer.remainingSec);
-      workInput.value = Math.round(data.timer.workSec / 60);
-      breakInput.value = Math.round(data.timer.breakSec / 60);
-
       userList.innerHTML = "";
       for (const user of data.users) {
         const li = document.createElement("li");
@@ -604,17 +584,6 @@ chatForm.addEventListener("submit", (event) => {
   }
   send("chat_message", { message });
   chatInput.value = "";
-});
-
-startBtn.addEventListener("click", () => send("timer_start"));
-pauseBtn.addEventListener("click", () => send("timer_pause"));
-resetBtn.addEventListener("click", () => send("timer_reset"));
-
-configForm.addEventListener("submit", (event) => {
-  event.preventDefault();
-  const workSec = Number(workInput.value) * 60;
-  const breakSec = Number(breakInput.value) * 60;
-  send("timer_config", { workSec, breakSec });
 });
 
 loadRadioBtn.addEventListener("click", () => {

@@ -100,18 +100,36 @@ body.join-screen .join-card {
 .room-grid {
   display: grid;
   gap: 1rem;
-  grid-template-columns: minmax(0, 1.35fr) minmax(280px, 1fr) minmax(280px, 1fr);
+  grid-template-columns: minmax(0, 1.35fr) minmax(0, 0.85fr) minmax(260px, 300px);
+  grid-template-areas:
+    "video chat media";
   align-items: start;
 }
 
 .chat-card,
-.timer-card,
 .media-card,
 .video-card {
-  min-height: 430px;
+  min-height: 520px;
   display: flex;
   flex-direction: column;
   gap: 0.75rem;
+}
+
+.chat-card {
+  grid-area: chat;
+  min-height: 520px;
+}
+
+.media-card {
+  grid-area: media;
+  min-height: 0;
+  position: sticky;
+  top: 1rem;
+}
+
+.video-card {
+  grid-area: video;
+  min-height: 520px;
 }
 
 .card-title-row {
@@ -187,7 +205,7 @@ button:hover {
 
 .chat-log {
   flex: 1;
-  min-height: 220px;
+  min-height: 360px;
   overflow-y: auto;
   background: #0f172a;
   border: 1px solid #263246;
@@ -207,18 +225,6 @@ button:hover {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 0.5rem;
-}
-
-.timer-phase {
-  color: var(--muted);
-  letter-spacing: 0.12em;
-  font-size: 0.85rem;
-}
-
-.timer-display {
-  font-size: clamp(2rem, 1.3rem + 3vw, 3rem);
-  font-weight: 700;
-  letter-spacing: 0.02em;
 }
 
 .timer-controls {
@@ -243,12 +249,16 @@ button:hover {
 .video-grid {
   display: grid;
   gap: 0.6rem;
+  grid-template-columns: minmax(240px, 1fr) minmax(0, 1.8fr);
+  align-items: start;
 }
 
 .remote-videos {
   display: grid;
   gap: 0.6rem;
   grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  max-height: 360px;
+  overflow: auto;
 }
 
 .video-tile {
@@ -269,6 +279,11 @@ button:hover {
   color: var(--muted);
 }
 
+.video-card .timer-controls {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+}
+
 .sharing-status {
   color: var(--muted);
   font-size: 0.9rem;
@@ -277,23 +292,38 @@ button:hover {
 @media (max-width: 980px) {
   .room-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
-  }
-
-  .chat-card {
-    grid-column: 1 / -1;
+    grid-template-areas:
+      "video chat"
+      "media media";
   }
 
   .chat-card,
-  .timer-card,
   .media-card,
   .video-card {
     min-height: 0;
+  }
+
+  .video-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .remote-videos {
+    max-height: 280px;
+  }
+
+  .media-card {
+    position: static;
+    top: auto;
   }
 }
 
 @media (max-width: 834px) {
   .room-grid {
     grid-template-columns: 1fr;
+    grid-template-areas:
+      "video"
+      "chat"
+      "media";
   }
 
   .timer-controls button {
@@ -331,7 +361,7 @@ button:hover {
   .timer-controls button,
   .chat-form button,
   #joinForm button,
-  .config-form button {
+  .media-card button {
     width: 100%;
   }
 
