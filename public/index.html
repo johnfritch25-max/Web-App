@@ -3,7 +3,6 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
-    <meta name="theme-color" content="#111827" />
     <meta name="apple-mobile-web-app-capable" content="yes" />
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
     <link rel="manifest" href="/manifest.webmanifest" />
@@ -15,7 +14,10 @@
   <body>
     <main class="app-shell">
       <header class="app-header">
-        <h1>Virtual Study Room</h1>
+        <div class="title-group">
+          <h1>Virtual Study Room</h1>
+          <p class="app-subtitle">Collaborate with focused video sessions, live chat, and lo-fi audio.</p>
+        </div>
         <div class="header-actions">
           <p id="connectionStatus" class="status-pill">Offline</p>
           <button id="installBtn" class="secondary-btn" hidden>Install App</button>
@@ -24,6 +26,7 @@
 
       <section id="joinCard" class="card join-card">
         <h2>Join a Room</h2>
+        <p class="join-hint">Pick a display name and room to start studying together.</p>
         <form id="joinForm">
           <label>
             Name
@@ -43,9 +46,10 @@
             <h2>Video Call</h2>
             <p id="callStatus">Not connected</p>
           </div>
+          <p class="section-hint">Start your camera and invite peers in the same room.</p>
           <div class="video-grid">
             <div class="video-tile">
-              <video id="localVideo" autoplay muted playsinline></video>
+              <video id="localVideo" autoplay muted></video>
               <small>You</small>
             </div>
             <div id="remoteVideos" class="remote-videos"></div>
@@ -65,6 +69,7 @@
             <h2>Live Chat</h2>
             <p id="roomLabel"></p>
           </div>
+          <p class="section-hint">Share links, notes, and quick updates while studying.</p>
           <div id="chatLog" class="chat-log"></div>
           <form id="chatForm" class="chat-form">
             <input id="chatInput" maxlength="300" placeholder="Type a message..." required />
@@ -74,6 +79,7 @@
 
         <article class="card media-card">
           <h2>Lo-fi Radio</h2>
+          <p class="section-hint">Keep background focus music running for your room.</p>
           <label>
             Stream URL
             <input

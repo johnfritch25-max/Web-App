@@ -41,10 +41,21 @@ body.join-screen .app-shell {
 .app-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
+  align-items: flex-start;
   gap: 0.75rem;
   flex-wrap: wrap;
-  margin-bottom: 1rem;
+  margin-bottom: 1.15rem;
+}
+
+.title-group {
+  display: grid;
+  gap: 0.35rem;
+}
+
+.app-subtitle {
+  color: var(--muted);
+  max-width: 720px;
+  font-size: 0.98rem;
 }
 
 .header-actions {
@@ -83,6 +94,7 @@ p {
   border: 1px solid #253146;
   border-radius: 14px;
   padding: clamp(0.85rem, 1.8vw, 1.1rem);
+  box-shadow: 0 12px 26px rgba(2, 6, 23, 0.28);
 }
 
 .join-card {
@@ -91,7 +103,13 @@ p {
   margin-inline: auto;
   margin-top: clamp(0.5rem, 6vh, 3rem);
   display: grid;
-  gap: 0.9rem;
+  gap: 0.8rem;
+}
+
+.join-hint,
+.section-hint {
+  color: var(--muted);
+  font-size: 0.9rem;
 }
 
 body.join-screen .join-card {
@@ -184,6 +202,10 @@ button:hover {
   filter: brightness(1.05);
 }
 
+button:active {
+  transform: translateY(1px);
+}
+
 .secondary-btn {
   background: #334155;
   color: var(--text);
@@ -223,6 +245,7 @@ button:hover {
 .chat-line {
   margin-bottom: 0.6rem;
   overflow-wrap: anywhere;
+  line-height: 1.45;
 }
 
 .chat-line small {
@@ -297,6 +320,11 @@ button:hover {
   color: var(--muted);
 }
 
+#callStatus {
+  color: var(--muted);
+  font-weight: 600;
+}
+
 .video-card .timer-controls {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
@@ -323,6 +351,10 @@ button:hover {
 
   .chat-card {
     height: 500px;
+  }
+
+  .app-header {
+    align-items: center;
   }
 
   .video-grid {
@@ -418,6 +450,10 @@ button:hover {
 
   .chat-card {
     height: 420px;
+  }
+
+  .app-subtitle {
+    font-size: 0.9rem;
   }
 }
 
