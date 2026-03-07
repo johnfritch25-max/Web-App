@@ -212,6 +212,8 @@ button:hover {
   min-height: 0;
   overflow-y: auto;
   overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  touch-action: pan-y;
   background: #0f172a;
   border: 1px solid #263246;
   border-radius: 10px;
@@ -256,11 +258,11 @@ button:hover {
   display: grid;
   gap: 0.6rem;
   grid-template-columns: 1fr;
-  align-items: start;
+  align-items: stretch;
 }
 
 #localVideo {
-  min-height: clamp(300px, 46vh, 520px);
+  min-height: clamp(380px, 54vh, 640px);
 }
 
 .remote-videos {
@@ -278,12 +280,13 @@ button:hover {
 .video-tile {
   display: grid;
   gap: 0.35rem;
+  width: 100%;
 }
 
 .video-tile video {
   width: 100%;
   aspect-ratio: 16 / 9;
-  min-height: clamp(220px, 30vh, 360px);
+  min-height: clamp(300px, 44vh, 520px);
   border-radius: 10px;
   border: 1px solid #334155;
   object-fit: cover;
@@ -324,6 +327,10 @@ button:hover {
 
   .video-grid {
     grid-template-columns: 1fr;
+  }
+
+  #localVideo {
+    min-height: clamp(280px, 42vh, 460px);
   }
 
   .remote-videos {
