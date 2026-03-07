@@ -6,6 +6,36 @@ const { WebSocketServer } = require("ws");
 const PORT = process.env.PORT || 3000;
 const PUBLIC_DIR = path.join(__dirname, "public");
 
+function buildIceServers() {
+  const defaultIce = [{ urls: "stun:stun.l.google.com:19302" }];
+  const rawUrls = String(process.env.TURN_URLS || "").trim();
+  if (!rawUrls) {
+    return defaultIce;
+  }
+
+  const urls = rawUrls
+    .split(",")
+    .map((value) => value.trim())
+    .filter(Boolean);
+
+  if (urls.length === 0) {
+    return defaultIce;
+  }
+
+  const username = String(process.env.TURN_USERNAME || "").trim();
+  const credential = String(process.env.TURN_CREDENTIAL || "").trim();
+  const turnServer = { urls };
+
+  if (username && credential) {
+    turnServer.username = username;
+    turnServer.credential = credential;
+  }
+
+  return [...defaultIce, turnServer];
+}
+
+const ICE_SERVERS = buildIceServers();
+
 const MIME_TYPES = {
   ".html": "text/html; charset=UTF-8",
   ".css": "text/css; charset=UTF-8",
@@ -181,6 +211,7 @@ wss.on("connection", (ws) => {
         peerId: ws.clientId,
         roomId,
         userName,
+        iceServers: ICE_SERVERS,
       });
 
       sendJson(ws, {

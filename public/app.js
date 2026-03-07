@@ -47,9 +47,41 @@ const sharingPeers = new Map();
 
 const MAX_RECONNECT_ATTEMPTS = 8;
 const BASE_RECONNECT_DELAY_MS = 1000;
-const rtcConfig = {
-  iceServers: [{ urls: "stun:stun.l.google.com:19302" }],
-};
+let configuredIceServers = [{ urls: "stun:stun.l.google.com:19302" }];
+
+function normalizeIceServers(iceServers) {
+  if (!Array.isArray(iceServers) || iceServers.length === 0) {
+    return [{ urls: "stun:stun.l.google.com:19302" }];
+  }
+
+  const normalized = [];
+  for (const server of iceServers) {
+    if (!server || !server.urls) {
+      continue;
+    }
+
+    const urls = Array.isArray(server.urls)
+      ? server.urls.filter((url) => typeof url === "string" && url.trim())
+      : typeof server.urls === "string" && server.urls.trim()
+      ? [server.urls]
+      : [];
+
+    if (urls.length === 0) {
+      continue;
+    }
+
+    const safeServer = { urls };
+    if (typeof server.username === "string" && server.username) {
+      safeServer.username = server.username;
+    }
+    if (typeof server.credential === "string" && server.credential) {
+      safeServer.credential = server.credential;
+    }
+    normalized.push(safeServer);
+  }
+
+  return normalized.length > 0 ? normalized : [{ urls: "stun:stun.l.google.com:19302" }];
+}
 
 function pad(value) {
   return String(value).padStart(2, "0");
@@ -289,7 +321,7 @@ function getOrCreatePeerConnection(peerId, userName) {
     return existing;
   }
 
-  const pc = new RTCPeerConnection(rtcConfig);
+  const pc = new RTCPeerConnection({ iceServers: configuredIceServers });
   peerConnections.set(peerId, pc);
   addTracksToConnection(pc);
 
@@ -414,6 +446,7 @@ function connectWebSocket(userName, roomId) {
 
     if (data.type === "joined_ack") {
       selfPeerId = data.peerId;
+      configuredIceServers = normalizeIceServers(data.iceServers);
       return;
     }
 

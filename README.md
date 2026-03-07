@@ -2,7 +2,7 @@
 
 Full-stack Progressive Web App with:
 - Real-time room chat (WebSocket)
-- Shared Pomodoro timer (synced for all users in room)
+- WebRTC group video call (camera/mic + screen sharing)
 - Lo-fi radio stream player
 
 ## Run locally
@@ -28,3 +28,13 @@ Open: `http://localhost:3000`
 Notes:
 - WebSockets are supported by Render web services.
 - Free plan services may sleep when idle.
+
+## Improve video-call reliability (TURN)
+
+For networks with strict NAT/firewall, set these environment variables in Render:
+
+- `TURN_URLS` (comma-separated), e.g. `turn:global.relay.metered.ca:80,turn:global.relay.metered.ca:443?transport=tcp`
+- `TURN_USERNAME`
+- `TURN_CREDENTIAL`
+
+The app always includes Google STUN, and adds your TURN server automatically when configured.
