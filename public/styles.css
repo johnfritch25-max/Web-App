@@ -118,6 +118,7 @@ body.join-screen .join-card {
 .chat-card {
   grid-area: chat;
   min-height: 520px;
+  height: 520px;
 }
 
 .media-card {
@@ -205,7 +206,7 @@ button:hover {
 
 .chat-log {
   flex: 1;
-  min-height: 360px;
+  min-height: 0;
   overflow-y: auto;
   background: #0f172a;
   border: 1px solid #263246;
@@ -215,6 +216,7 @@ button:hover {
 
 .chat-line {
   margin-bottom: 0.6rem;
+  overflow-wrap: anywhere;
 }
 
 .chat-line small {
@@ -249,16 +251,20 @@ button:hover {
 .video-grid {
   display: grid;
   gap: 0.6rem;
-  grid-template-columns: minmax(240px, 1fr) minmax(0, 1.8fr);
+  grid-template-columns: 1fr;
   align-items: start;
 }
 
 .remote-videos {
   display: grid;
   gap: 0.6rem;
-  grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   max-height: 360px;
   overflow: auto;
+}
+
+.remote-videos:empty {
+  display: none;
 }
 
 .video-tile {
@@ -269,6 +275,7 @@ button:hover {
 .video-tile video {
   width: 100%;
   aspect-ratio: 16 / 9;
+  min-height: clamp(220px, 30vh, 360px);
   border-radius: 10px;
   border: 1px solid #334155;
   object-fit: cover;
@@ -303,6 +310,10 @@ button:hover {
     min-height: 0;
   }
 
+  .chat-card {
+    height: 480px;
+  }
+
   .video-grid {
     grid-template-columns: 1fr;
   }
@@ -328,6 +339,10 @@ button:hover {
 
   .timer-controls button {
     flex: 1 1 calc(50% - 0.5rem);
+  }
+
+  .chat-card {
+    height: 420px;
   }
 }
 
@@ -368,6 +383,10 @@ button:hover {
   .timer-controls {
     display: grid;
     grid-template-columns: 1fr;
+  }
+
+  .chat-card {
+    height: 380px;
   }
 }
 
